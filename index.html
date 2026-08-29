@@ -1,91 +1,146 @@
 <!doctype html>
 <html lang="de">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Digitaler Katalog einer privaten Kunstsammlung – Gemälde, Aquarelle, Drucke und gerahmte Arbeiten.">
-  <title>Gemäldekatalog · Kunstsammlung</title>
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-  <header class="site-header">
-    <a class="brand" href="#top" aria-label="Zur Startseite">
-      <span class="brand-mark" aria-hidden="true">K</span>
-      <span><strong>Kunstsammlung</strong><small>Digitaler Gemäldekatalog</small></span>
-    </a>
-    <nav aria-label="Hauptnavigation">
-      <a href="#sammlung">Sammlung</a>
-      <a href="#ueber">Über den Katalog</a>
-    </nav>
-  </header>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Digitaler Katalog einer privaten Kunstsammlung mit Werkdaten, Fotografien und vorläufigen Einordnungen."
+    />
+    <meta name="theme-color" content="#f1eee7" />
+    <title>Kunstsammlung — Digitaler Katalog</title>
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="catalog.js" defer></script>
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#sammlung">Zur Sammlung springen</a>
 
-  <main id="top">
-    <section class="hero">
-      <div class="hero-copy">
-        <p class="eyebrow">Privatsammlung · fortlaufend erfasst</p>
-        <h1>Ein digitaler Katalog für Bilder, Spuren und Geschichten.</h1>
-        <p class="lede">Gemälde, Aquarelle, Druckgrafik und gerahmte Arbeiten – mit Maßen, Motiv, Technikhinweisen, Signaturen und Provenienzmerkmalen.</p>
-        <div class="hero-actions">
-          <a class="button primary" href="#sammlung">Sammlung ansehen</a>
-          <a class="button ghost" href="#ueber">Katalogprinzip</a>
+    <header class="site-header">
+      <a class="wordmark" href="#top" aria-label="Kunstsammlung – Startseite">
+        <span class="wordmark-mark" aria-hidden="true">KS</span>
+        <span>Kunstsammlung</span>
+      </a>
+      <nav aria-label="Hauptnavigation">
+        <a href="#sammlung">Werke</a>
+        <a href="#ueber">Über den Katalog</a>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <p class="eyebrow">Digitaler Sammlungskatalog</p>
+          <h1 id="hero-title">Kunst, bewahrt.<br />Geschichten, sichtbar.</h1>
+          <p class="hero-intro">
+            Gemälde, Grafiken und Arbeiten auf Papier – fotografisch dokumentiert,
+            vorläufig eingeordnet und an einem Ort versammelt.
+          </p>
+          <a class="hero-link" href="#sammlung">Sammlung entdecken <span aria-hidden="true">↓</span></a>
         </div>
-      </div>
-      <div class="hero-art" aria-label="Abstrakte Vorschau auf die Sammlung">
-        <div class="frame frame-one"><span></span></div>
-        <div class="frame frame-two"><span></span></div>
-        <div class="frame frame-three"><span></span></div>
-      </div>
-    </section>
+        <div class="hero-art" id="hero-art" aria-hidden="true"></div>
+      </section>
 
-    <section class="stats" aria-label="Katalogstatistik">
-      <article><strong id="stat-total">0</strong><span>Objekte im Webkatalog</span></article>
-      <article><strong id="stat-framed">0</strong><span>mit Rahmenmaß</span></article>
-      <article><strong id="stat-categories">0</strong><span>Motivgruppen</span></article>
-    </section>
+      <section class="collection-shell" id="sammlung" aria-labelledby="collection-title">
+        <div class="collection-heading">
+          <div>
+            <p class="eyebrow">Bestand</p>
+            <h2 id="collection-title">Die Sammlung</h2>
+          </div>
+          <div class="stats" aria-label="Katalogstatistik">
+            <div><strong id="stat-works">–</strong><span>Werke</span></div>
+            <div><strong id="stat-photos">–</strong><span>Fotografien</span></div>
+            <div><strong id="stat-catalogued">–</strong><span>Katalogisiert</span></div>
+          </div>
+        </div>
 
-    <section class="collection" id="sammlung">
-      <div class="section-heading">
+        <div class="toolbar" aria-label="Sammlung filtern">
+          <label class="search-control">
+            <span class="sr-only">Sammlung durchsuchen</span>
+            <svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><path d="m16 16 5 5"></path></svg>
+            <input id="search" type="search" placeholder="Künstler, Titel, Technik …" autocomplete="off" />
+          </label>
+          <label class="select-control">
+            <span class="sr-only">Status filtern</span>
+            <select id="status-filter">
+              <option value="all">Alle Einträge</option>
+              <option value="katalogisiert">Katalogisiert</option>
+              <option value="ausstehend">Offene Einträge</option>
+            </select>
+          </label>
+          <label class="select-control">
+            <span class="sr-only">Sortierung</span>
+            <select id="sort-order">
+              <option value="sequence">Katalogreihenfolge</option>
+              <option value="title">Titel A–Z</option>
+              <option value="artist">Künstler A–Z</option>
+            </select>
+          </label>
+        </div>
+
+        <p class="result-line" id="result-line" aria-live="polite"></p>
+        <div class="art-grid" id="art-grid"></div>
+        <div class="empty-state" id="empty-state" hidden>
+          <p>Keine Werke für diese Auswahl gefunden.</p>
+          <button type="button" id="reset-filters">Filter zurücksetzen</button>
+        </div>
+      </section>
+
+      <section class="about" id="ueber" aria-labelledby="about-title">
         <div>
-          <p class="eyebrow">Sammlung</p>
-          <h2>Erfasste Arbeiten</h2>
+          <p class="eyebrow">Über den Katalog</p>
+          <h2 id="about-title">Eine Bestandsaufnahme,<br />kein endgültiges Gutachten.</h2>
         </div>
-        <p>Der erste Webstand arbeitet bewusst mit grafischen Platzhaltern. Die zugehörigen Objektfotos werden anschließend Stück für Stück ergänzt.</p>
+        <div class="about-copy">
+          <p>
+            Dieser digitale Katalog bündelt die vorhandenen Fotografien und die im
+            Zuge der Erfassung entstandenen Werknotizen. Künstlerzuordnungen,
+            Datierungen und Marktwerte sind vorläufig und sollten vor Verkauf oder
+            Versicherung fachlich geprüft werden.
+          </p>
+          <p>
+            Detailaufnahmen von Signaturen, Rückseiten, Etiketten und Rahmen sind
+            den jeweiligen Werken direkt zugeordnet und in der Detailansicht abrufbar.
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <span>Kunstsammlung · Digitaler Katalog</span>
+      <a href="#top">Nach oben ↑</a>
+    </footer>
+
+    <dialog class="art-dialog" id="art-dialog" aria-labelledby="dialog-title">
+      <button class="dialog-close" id="dialog-close" type="button" aria-label="Detailansicht schließen">×</button>
+      <div class="dialog-layout">
+        <section class="dialog-media" aria-label="Werkfotografien">
+          <button class="main-image-button" id="main-image-button" type="button" aria-label="Bild vergrößern">
+            <img id="dialog-main-image" alt="" />
+          </button>
+          <div class="thumbnail-strip" id="thumbnail-strip"></div>
+        </section>
+        <section class="dialog-info">
+          <p class="dialog-id" id="dialog-id"></p>
+          <h2 id="dialog-title"></h2>
+          <p class="dialog-artist" id="dialog-artist"></p>
+          <dl class="metadata" id="dialog-metadata"></dl>
+          <div class="dialog-section" id="dialog-notes-wrap">
+            <h3>Erfasste Angaben</h3>
+            <div id="dialog-notes"></div>
+          </div>
+          <details class="catalog-details" id="catalog-details">
+            <summary>Vollständige Katalognotiz</summary>
+            <div class="catalog-copy" id="dialog-catalog"></div>
+          </details>
+        </section>
       </div>
+    </dialog>
 
-      <div class="controls" aria-label="Katalog filtern">
-        <label class="search-wrap">
-          <span class="sr-only">Suche</span>
-          <input id="search" type="search" placeholder="Titel, Motiv, Technik oder Hinweis suchen …" autocomplete="off">
-        </label>
-        <div class="filters" id="filters" role="group" aria-label="Motivfilter"></div>
-      </div>
-
-      <div class="catalog-grid" id="catalog" aria-live="polite"></div>
-      <p class="empty-state" id="empty" hidden>Keine Einträge passen zu dieser Auswahl.</p>
-    </section>
-
-    <section class="about" id="ueber">
-      <div>
-        <p class="eyebrow">Katalogprinzip</p>
-        <h2>Sachlich dokumentiert, vorsichtig eingeordnet.</h2>
-      </div>
-      <div class="about-grid">
-        <p>Maße werden in Zentimetern geführt und – soweit bekannt – getrennt nach Werkmaß und Rahmenmaß. Sichtbare Signaturen, Aufkleber, Stempel und Beschriftungen werden als Hinweise dokumentiert, nicht als ungeprüfte Zuschreibung.</p>
-        <p>Dieser Webkatalog ist ein Arbeitsstand. Datensätze können bei neuen Fotos, besseren Lesungen oder weiterführender Recherche präzisiert werden.</p>
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    <span>Gemäldekatalog · private Kunstsammlung</span>
-    <span>Arbeitsstand <span id="year"></span></span>
-  </footer>
-
-  <dialog id="detail-dialog" class="detail-dialog">
-    <button class="dialog-close" type="button" aria-label="Detailansicht schließen">×</button>
-    <div id="detail-content"></div>
-  </dialog>
-
-  <script src="app.js" defer></script>
-</body>
+    <dialog class="lightbox" id="lightbox" aria-label="Bildansicht">
+      <button id="lightbox-close" type="button" aria-label="Bildansicht schließen">×</button>
+      <img id="lightbox-image" alt="" />
+    </dialog>
+  </body>
 </html>

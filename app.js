@@ -1,136 +1,207 @@
-const state = { items: [], category: 'Alle', query: '' };
+(() => {
+  const catalog = window.CATALOG_DATA;
+  if (!catalog?.works?.length) return;
 
-const palette = [
-  ['#80958c', '#465f54', '#c1ae83'],
-  ['#b78b62', '#6b4937', '#95a78a'],
-  ['#8b9dab', '#536f79', '#c1b695'],
-  ['#9b7563', '#4d5f68', '#d2c2a8'],
-  ['#7b8063', '#b98550', '#5d6f72'],
-  ['#6c7e70', '#a68e63', '#d7c9aa'],
-  ['#8a6558', '#575a65', '#caa86c'],
-  ['#6e7f88', '#3e5968', '#9b7b5d']
-];
+  const grid = document.querySelector("#art-grid");
+  const search = document.querySelector("#search");
+  const statusFilter = document.querySelector("#status-filter");
+  const sortOrder = document.querySelector("#sort-order");
+  const resultLine = document.querySelector("#result-line");
+  const emptyState = document.querySelector("#empty-state");
+  const dialog = document.querySelector("#art-dialog");
+  const lightbox = document.querySelector("#lightbox");
+  let activeWork = null;
+  let activeImageIndex = 0;
 
-const $ = (selector) => document.querySelector(selector);
-const escapeHtml = (value = '') => String(value).replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
+  const normalized = (value) =>
+    String(value ?? "")
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase();
 
-function measure(item) {
-  if (item.workSize && item.frameSize) return `${item.workSize} cm · Rahmen ${item.frameSize} cm`;
-  if (item.workSize) return `${item.workSize} cm`;
-  if (item.frameSize) return `Rahmen ${item.frameSize} cm`;
-  return 'Maß noch offen';
-}
+  const escapeHtml = (value) =>
+    String(value ?? "")
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
 
-function colors(index) {
-  const p = palette[index % palette.length];
-  return `--c1:${p[0]};--c2:${p[1]};--c3:${p[2]}`;
-}
+  const displayTitle = (work) =>
+    work.title && work.title !== work.id ? work.title : "Ohne gesicherten Titel";
 
-function renderFilters() {
-  const categories = ['Alle', ...new Set(state.items.map(item => item.category))];
-  $('#filters').innerHTML = categories.map(category =>
-    `<button class="filter-chip${category === state.category ? ' active' : ''}" type="button" data-category="${escapeHtml(category)}">${escapeHtml(category)}</button>`
-  ).join('');
+  document.querySelector("#stat-works").textContent = catalog.stats.works;
+  document.querySelector("#stat-photos").textContent = catalog.stats.photos;
+  document.querySelector("#stat-catalogued").textContent = catalog.stats.catalogued;
 
-  $('#filters').querySelectorAll('button').forEach(button => {
-    button.addEventListener('click', () => {
-      state.category = button.dataset.category;
-      renderFilters();
-      renderCatalog();
-    });
-  });
-}
+  const heroWorks = catalog.works.filter((work) => work.images.length);
+  const heroSelection = [heroWorks[39] ?? heroWorks[0], heroWorks[70] ?? heroWorks[1]].filter(Boolean);
+  document.querySelector("#hero-art").innerHTML = heroSelection
+    .map(
+      (work) => `<div class="hero-image"><img src="${escapeHtml(work.images[0].src)}" alt="" /></div>`,
+    )
+    .join("");
 
-function filteredItems() {
-  const q = state.query.trim().toLowerCase();
-  return state.items.filter(item => {
-    const categoryMatch = state.category === 'Alle' || item.category === state.category;
-    const text = [item.title, item.category, item.medium, item.notes, item.signature, item.provenance, item.workSize, item.frameSize].join(' ').toLowerCase();
-    return categoryMatch && (!q || text.includes(q));
-  });
-}
-
-function renderCatalog() {
-  const items = filteredItems();
-  $('#empty').hidden = items.length !== 0;
-  $('#catalog').innerHTML = items.map((item) => {
-    const originalIndex = state.items.findIndex(entry => entry.id === item.id);
-    return `
-      <article class="catalog-card" tabindex="0" role="button" aria-label="Details zu ${escapeHtml(item.title)}" data-id="${escapeHtml(item.id)}">
-        <div class="card-art" style="${colors(originalIndex)}" aria-hidden="true"></div>
-        <div class="card-body">
-          <div class="card-meta"><span>${escapeHtml(item.category)}</span><span>${escapeHtml(item.id)}</span></div>
-          <h3>${escapeHtml(item.title)}</h3>
-          <p>${escapeHtml(measure(item))}</p>
-        </div>
-      </article>`;
-  }).join('');
-
-  $('#catalog').querySelectorAll('.catalog-card').forEach(card => {
-    const open = () => showDetail(card.dataset.id);
-    card.addEventListener('click', open);
-    card.addEventListener('keydown', event => {
-      if (event.key === 'Enter' || event.key === ' ') {
-        event.preventDefault();
-        open();
-      }
-    });
-  });
-}
-
-function showDetail(id) {
-  const item = state.items.find(entry => entry.id === id);
-  if (!item) return;
-  const index = state.items.findIndex(entry => entry.id === id);
-  const fields = [
-    ['Werkmaß', item.workSize ? `${item.workSize} cm` : '–'],
-    ['Rahmenmaß', item.frameSize ? `${item.frameSize} cm` : '–'],
-    ['Technik / Träger', item.medium || 'noch zu prüfen'],
-    ['Signatur / Beschriftung', item.signature || 'kein eindeutiger Hinweis erfasst'],
-    ['Provenienz / Rückseite', item.provenance || 'keine Angabe'],
-    ['Status', item.status || 'in Bearbeitung']
-  ];
-
-  $('#detail-content').innerHTML = `
-    <div class="detail-art" style="${colors(index)}" aria-hidden="true"></div>
-    <div class="detail-copy">
-      <p class="eyebrow">${escapeHtml(item.category)} · ${escapeHtml(item.id)}</p>
-      <h2>${escapeHtml(item.title)}</h2>
-      <p class="summary">${escapeHtml(item.notes || 'Der Eintrag wird im Zuge der laufenden Katalogisierung weiter ergänzt.')}</p>
-      <dl class="detail-list">
-        ${fields.map(([key, value]) => `<div><dt>${escapeHtml(key)}</dt><dd>${escapeHtml(value)}</dd></div>`).join('')}
-      </dl>
-    </div>`;
-  $('#detail-dialog').showModal();
-}
-
-async function init() {
-  try {
-    const response = await fetch('catalog/catalog.json', { cache: 'no-store' });
-    if (!response.ok) throw new Error('Katalogdaten konnten nicht geladen werden.');
-    state.items = await response.json();
-  } catch (error) {
-    console.error(error);
-    state.items = [];
+  function searchText(work) {
+    return normalized(
+      [
+        work.id,
+        work.title,
+        work.artist,
+        work.technique,
+        work.dating,
+        work.dimensions,
+        work.userNotes?.join(" "),
+        work.catalogText,
+      ].join(" "),
+    );
   }
 
-  $('#stat-total').textContent = state.items.length;
-  $('#stat-framed').textContent = state.items.filter(item => item.frameSize).length;
-  $('#stat-categories').textContent = new Set(state.items.map(item => item.category)).size;
-  $('#year').textContent = new Date().getFullYear();
+  function visibleWorks() {
+    const query = normalized(search.value.trim());
+    const status = statusFilter.value;
+    const works = catalog.works.filter(
+      (work) =>
+        (status === "all" || work.status === status) &&
+        (!query || searchText(work).includes(query)),
+    );
 
-  renderFilters();
-  renderCatalog();
+    return works.sort((a, b) => {
+      if (sortOrder.value === "title")
+        return displayTitle(a).localeCompare(displayTitle(b), "de");
+      if (sortOrder.value === "artist")
+        return a.artist.localeCompare(b.artist, "de");
+      return a.sequence - b.sequence;
+    });
+  }
 
-  $('#search').addEventListener('input', event => {
-    state.query = event.target.value;
-    renderCatalog();
+  function cardMarkup(work) {
+    const image = work.images[0];
+    const subtitle = [work.artist, work.technique].filter(Boolean).join(" · ");
+    return `
+      <article class="art-card">
+        <button type="button" data-work-sequence="${work.sequence}" aria-label="${escapeHtml(displayTitle(work))} öffnen">
+          <div class="card-image">
+            <img src="${escapeHtml(image.src)}" alt="${escapeHtml(displayTitle(work))}" loading="lazy" decoding="async" />
+            ${work.images.length > 1 ? `<span class="photo-count">${work.images.length} Fotos</span>` : ""}
+            ${work.status === "ausstehend" ? '<span class="status-pill">Offen</span>' : ""}
+          </div>
+          <div class="card-copy">
+            <div class="card-kicker"><span>${escapeHtml(work.id)}</span><span>${escapeHtml(work.dating || "")}</span></div>
+            <h3>${escapeHtml(displayTitle(work))}</h3>
+            <p>${escapeHtml(subtitle || "Zuordnung in Prüfung")}</p>
+          </div>
+        </button>
+      </article>`;
+  }
+
+  function render() {
+    const works = visibleWorks();
+    grid.innerHTML = works.map(cardMarkup).join("");
+    resultLine.textContent = `${works.length} von ${catalog.works.length} Werken`;
+    emptyState.hidden = works.length > 0;
+
+    grid.querySelectorAll("[data-work-sequence]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const work = catalog.works.find(
+          (entry) => entry.sequence === Number(button.dataset.workSequence),
+        );
+        openWork(work);
+      });
+    });
+  }
+
+  function metadataMarkup(work) {
+    const rows = [
+      ["Technik", work.technique],
+      ["Datierung", work.dating],
+      ["Maße", work.dimensions],
+      ["Mit Rahmen", work.framedDimensions],
+      ["Wertspanne", work.value],
+      ["Status", work.status === "katalogisiert" ? "Vorläufig katalogisiert" : "Katalogisierung ausstehend"],
+    ].filter(([, value]) => value);
+
+    return rows
+      .map(([label, value]) => `<div><dt>${escapeHtml(label)}</dt><dd>${escapeHtml(value)}</dd></div>`)
+      .join("");
+  }
+
+  function selectDialogImage(index) {
+    activeImageIndex = index;
+    const image = activeWork.images[index];
+    const main = document.querySelector("#dialog-main-image");
+    main.src = image.src;
+    main.alt = `${displayTitle(activeWork)}, Aufnahme ${index + 1} von ${activeWork.images.length}`;
+    document.querySelectorAll("#thumbnail-strip button").forEach((button, buttonIndex) => {
+      button.classList.toggle("active", buttonIndex === index);
+    });
+  }
+
+  function openWork(work) {
+    if (!work) return;
+    activeWork = work;
+    activeImageIndex = 0;
+    document.querySelector("#dialog-id").textContent = work.id;
+    document.querySelector("#dialog-title").textContent = displayTitle(work);
+    document.querySelector("#dialog-artist").textContent = work.artist;
+    document.querySelector("#dialog-metadata").innerHTML = metadataMarkup(work);
+    document.querySelector("#dialog-notes").innerHTML = (work.userNotes?.length
+      ? work.userNotes
+      : ["Keine zusätzlichen Maß- oder Provenienzangaben erfasst."]
+    )
+      .map((note) => `<p>${escapeHtml(note)}</p>`)
+      .join("");
+    document.querySelector("#dialog-catalog").textContent =
+      work.catalogText ||
+      "Für dieses Werk liegt im geteilten Chat noch kein abgeschlossener Katalogtext vor.";
+    document.querySelector("#catalog-details").open = false;
+    document.querySelector("#thumbnail-strip").innerHTML = work.images
+      .map(
+        (image, index) => `
+          <button type="button" aria-label="Aufnahme ${index + 1} anzeigen">
+            <img src="${escapeHtml(image.src)}" alt="" loading="lazy" />
+          </button>`,
+      )
+      .join("");
+    document.querySelectorAll("#thumbnail-strip button").forEach((button, index) => {
+      button.addEventListener("click", () => selectDialogImage(index));
+    });
+    selectDialogImage(0);
+    dialog.showModal();
+    history.replaceState(null, "", `#werk-${work.sequence}`);
+  }
+
+  function closeDialog(target = dialog) {
+    target.close();
+    if (target === dialog) history.replaceState(null, "", "#sammlung");
+  }
+
+  [search, statusFilter, sortOrder].forEach((control) =>
+    control.addEventListener("input", render),
+  );
+  document.querySelector("#reset-filters").addEventListener("click", () => {
+    search.value = "";
+    statusFilter.value = "all";
+    sortOrder.value = "sequence";
+    render();
+  });
+  document.querySelector("#dialog-close").addEventListener("click", () => closeDialog());
+  dialog.addEventListener("click", (event) => {
+    if (event.target === dialog) closeDialog();
+  });
+  document.querySelector("#main-image-button").addEventListener("click", () => {
+    const image = activeWork.images[activeImageIndex];
+    document.querySelector("#lightbox-image").src = image.src;
+    document.querySelector("#lightbox-image").alt = `${displayTitle(activeWork)}, vergrößerte Aufnahme`;
+    lightbox.showModal();
+  });
+  document.querySelector("#lightbox-close").addEventListener("click", () => closeDialog(lightbox));
+  lightbox.addEventListener("click", (event) => {
+    if (event.target === lightbox) closeDialog(lightbox);
   });
 
-  $('.dialog-close').addEventListener('click', () => $('#detail-dialog').close());
-  $('#detail-dialog').addEventListener('click', event => {
-    if (event.target === $('#detail-dialog')) $('#detail-dialog').close();
-  });
-}
+  render();
 
-document.addEventListener('DOMContentLoaded', init);
+  const match = location.hash.match(/^#werk-(\d+)$/);
+  if (match) openWork(catalog.works.find((work) => work.sequence === Number(match[1])));
+})();

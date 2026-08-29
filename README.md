@@ -1,24 +1,21 @@
-# Gemäldekatalog
+# Kunstsammlung
 
-Digitaler Katalog der erfassten Gemälde, Aquarelle, Drucke und gerahmten Arbeiten.
+Statischer, responsiver Online-Katalog der im freigegebenen Chat dokumentierten Kunstsammlung. Die Seite umfasst 75 Werkgruppen und 218 zugeordnete Fotografien.
 
-## Webseite
+## Lokal ansehen
 
-Der aktuelle Webstand liegt direkt im Repository und besteht aus einer statischen, responsiven Katalogseite ohne externe Abhängigkeiten:
+Die Seite benötigt keinen Build-Schritt. Im Repository-Verzeichnis einen lokalen Webserver starten, zum Beispiel:
 
-- `index.html` – Startseite und Katalogoberfläche
-- `styles.css` – Gestaltung und responsive Darstellung
-- `app.js` – Suche, Filter und Detailansichten
-- `catalog/catalog.json` – strukturierte Objektdaten
+```powershell
+python -m http.server 8000
+```
 
-Für GitHub Pages kann das Repository später direkt aus dem Branch `main` und dem Verzeichnis `/ (root)` veröffentlicht werden.
+Danach `http://localhost:8000` öffnen.
 
-## Katalogprinzip
+## GitHub Pages veröffentlichen
 
-Die Sammlung wird mit Fotos, Maßen, Motivbeschreibung, Künstler-/Signaturhinweisen, Technik, Zustand und Provenienzmerkmalen dokumentiert. Maße werden in Zentimetern geführt; sofern vorhanden getrennt nach Werkmaß und Rahmenmaß.
+Unter **Settings → Pages** als Quelle **Deploy from a branch**, den gewünschten Branch und den Ordner `/ (root)` auswählen. Nach dem Speichern wird die statische Seite direkt ausgeliefert.
 
-Signaturen, Etiketten und Stempel werden zunächst als sichtbare Hinweise erfasst. Zuschreibungen oder kunsthistorische Einordnungen sollen erst nach Prüfung als gesichert bezeichnet werden.
+## Kataloghinweis
 
-## Arbeitsstand
-
-Der erste Webstand enthält bereits einen Teil der im ChatGPT-Projekt **Gemäldekatalog** erfassten Objekte als strukturierte Datensätze. Die Objektfotos werden in weiteren Commits zugeordnet und ergänzt.
+Die Einordnungen und Wertspannen stammen aus einer fotografischen Vorprüfung. Sie sind keine Echtheitsbestätigung oder verbindliche Taxation.
