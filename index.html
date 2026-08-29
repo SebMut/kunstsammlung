@@ -8,13 +8,49 @@
       content="Digitaler Katalog einer privaten Kunstsammlung mit Werkdaten, Fotografien und vorläufigen Einordnungen."
     />
     <meta name="theme-color" content="#f1eee7" />
+    <meta name="robots" content="noindex, nofollow, noarchive" />
     <title>Kunstsammlung — Digitaler Katalog</title>
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="styles.css?v=6ea2c25" />
-    <script src="catalog.js?v=6ea2c25" defer></script>
-    <script src="app.js?v=6ea2c25" defer></script>
+    <link rel="stylesheet" href="styles.css?v=auth1" />
+    <script src="auth.js?v=auth1" defer></script>
   </head>
-  <body>
+  <body class="auth-pending">
+    <section class="login-screen" id="login-screen" aria-labelledby="login-title">
+      <div class="login-intro">
+        <a class="login-wordmark" href="./" aria-label="Kunstsammlung">
+          <span class="wordmark-mark" aria-hidden="true">KS</span>
+          <span>Kunstsammlung</span>
+        </a>
+        <div>
+          <p class="eyebrow">Privater Sammlungskatalog</p>
+          <h1 id="login-title">Zugang zur<br />Sammlung.</h1>
+          <p>Bitte geben Sie das Passwort ein, um den digitalen Katalog zu öffnen.</p>
+        </div>
+        <p class="login-note">Fotografien · Werkdaten · Katalognotizen</p>
+      </div>
+      <div class="login-panel">
+        <form class="login-form" id="login-form" novalidate>
+          <p class="login-kicker">Geschützter Bereich</p>
+          <h2>Anmelden</h2>
+          <label for="login-password">Passwort</label>
+          <div class="password-control">
+            <input
+              id="login-password"
+              name="password"
+              type="password"
+              autocomplete="current-password"
+              required
+              autofocus
+            />
+            <button id="password-toggle" type="button" aria-label="Passwort anzeigen">Anzeigen</button>
+          </div>
+          <p class="login-error" id="login-error" role="alert" aria-live="polite"></p>
+          <button class="login-submit" id="login-submit" type="submit">Sammlung öffnen <span aria-hidden="true">→</span></button>
+        </form>
+      </div>
+    </section>
+
+    <div id="protected-content" hidden>
     <a class="skip-link" href="#sammlung">Zur Sammlung springen</a>
 
     <header class="site-header">
@@ -25,6 +61,7 @@
       <nav aria-label="Hauptnavigation">
         <a href="#sammlung">Werke</a>
         <a href="#ueber">Über den Katalog</a>
+        <button class="logout-button" id="logout-button" type="button">Abmelden</button>
       </nav>
     </header>
 
@@ -142,5 +179,6 @@
       <button id="lightbox-close" type="button" aria-label="Bildansicht schließen">×</button>
       <img id="lightbox-image" alt="" />
     </dialog>
+    </div>
   </body>
 </html>
