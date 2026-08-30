@@ -1,0 +1,81 @@
+.card-copy {
+  padding-top: 14px;
+}
+
+.card-kicker {
+  align-items: baseline;
+}
+
+.card-kicker span:last-child {
+  max-width: 62%;
+  overflow: hidden;
+  text-align: right;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.card-copy h3 {
+  min-height: 2.35em;
+  margin: 8px 0 6px;
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.card-copy .card-artist {
+  min-height: 2.8em;
+  margin: 0 0 11px;
+  display: -webkit-box;
+  overflow: hidden;
+  color: var(--ink);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.4;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.card-overview-details {
+  padding-top: 10px;
+  display: grid;
+  gap: 7px;
+  border-top: 1px solid var(--line);
+}
+
+.card-overview-fact {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr);
+  gap: 9px;
+  align-items: start;
+}
+
+.card-overview-label {
+  padding-top: 1px;
+  color: var(--muted);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .09em;
+  line-height: 1.35;
+  text-transform: uppercase;
+}
+
+.card-overview-value {
+  min-width: 0;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.38;
+}
+
+.card-overview-fact--value .card-overview-value {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+@media (max-width: 760px) {
+  .card-copy h3,
+  .card-copy .card-artist {
+    min-height: 0;
+  }
+}
