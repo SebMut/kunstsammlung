@@ -105,6 +105,7 @@
       await loadScript("catalog-extra.js?v=1");
       await loadScript("catalog-extra-081.js?v=2");
       await loadScript("catalog-extra-086.js?v=1");
+      await loadScript("catalog-extra-087.js?v=1");
       await loadScript("app.js?v=auth3");
       setupPasswordChange();
       document.querySelector("#logout-button")?.addEventListener("click", () => {
