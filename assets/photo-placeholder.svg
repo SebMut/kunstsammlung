@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-labelledby="title desc">
+  <title id="title">Foto noch nicht hinterlegt</title>
+  <desc id="desc">Neutraler Platzhalter für einen Katalogeintrag ohne hinterlegtes Werkfoto.</desc>
+  <rect width="800" height="600" fill="#e9e5dc"/>
+  <rect x="24" y="24" width="752" height="552" fill="none" stroke="#c8c2b7" stroke-width="2"/>
+  <g fill="#6f706a" font-family="Arial, Helvetica, sans-serif" text-anchor="middle">
+    <text x="400" y="286" font-size="28" font-weight="600">FOTO NOCH NICHT HINTERLEGT</text>
+    <text x="400" y="330" font-size="18">Kein Werkfoto im Katalog verfügbar</text>
+  </g>
+</svg>
