@@ -69,6 +69,27 @@
       ],
       catalogText: "G-083 – A Draft of the Golden & adjacent Islands\n\nKolorierte historisierende Karte der karibischen Küste des Isthmus von Darién und der sogenannten Golden Islands, heute im Bereich der San-Blas-/Guna-Yala-Inselwelt Panamas. Die Kartusche bezeichnet das Blatt als „A Draft of the Golden & adjacent Islands with part of ye Isthmus of Darien as it was taken by Capt. Ienefer, where ye Scots West India Company were settled“. Sichtbar sind zahlreiche Inseln, Tiefenangaben, Fahrwasser, Segelschiffe, Kompassrosen sowie New Edinburgh, die kurzlebige schottische Niederlassung des Darien Scheme. Die historische Karte ist zusammen mit „A New Map of ye Isthmus of Darien in America“ dokumentiert: eine frühe Ausgabe erschien 1699 bei Robert Morden; spätere Fassungen sind um 1721 bekannt. William Hacke wird als Kartograf bzw. Urheber geführt, Herman Moll ist mit dem Stich des Kartenkomplexes verbunden. Das vorliegende Stück bildet damit inhaltlich das Gegenstück zu G-082. Aufgrund von Papierwirkung, gleichmäßiger dekorativer Kolorierung und Rahmung wird das vorhandene Exemplar vorsichtig als spätere Reproduktion nach der historischen Vorlage und nicht als gesicherter Originalabzug des späten 17. oder frühen 18. Jahrhunderts eingestuft. Außenmaß mit Rahmen 31,5 × 50 cm. Vorläufiger Privatverkaufswert etwa 40–100 €. Ein nachgewiesener zeitgenössischer Originalabzug wäre erheblich höher zu bewerten.",
       images: []
+    },
+    {
+      id: "G-084",
+      sequence: 84,
+      title: "Mutter mit Kind in traditioneller Kleidung",
+      artist: "Nicht identifiziert; keine Signatur erkennbar",
+      technique: "wohl Öl- oder Acrylmalerei auf Malpappe/Karton",
+      dating: "wohl 2. Hälfte 20. Jahrhundert",
+      dimensions: "60 × 48 cm",
+      framedDimensions: "",
+      value: "ca. 80–180 €",
+      status: "katalogisiert",
+      userNotes: [
+        "Maß 60 × 48 cm; ungerahmt.",
+        "Darstellung einer lächelnden Frau mit Kopftuch und eines kleinen Kindes, ebenfalls mit gemustertem Kopftuch bzw. traditioneller Kleidung.",
+        "Kräftige, pastose und teils skizzenhafte Malweise in Rot-, Blau-, Gelb- und Grüntönen.",
+        "Vorder- und Rückseite zeigen keine sicher erkennbare Signatur, Datierung, Beschriftung oder Etikettierung.",
+        "Träger ist eine feste Malpappe bzw. ein Karton; rückseitig unbezeichnet."
+      ],
+      catalogText: "G-084 – Mutter mit Kind in traditioneller Kleidung\n\nUngerahmte figurative Malerei mit einer lächelnden Frau im Vordergrund und einem kleinen Kind hinter ihr. Beide tragen gemusterte Kopfbedeckungen bzw. traditionell wirkende Kleidung. Die Darstellung ist in einer kräftigen, expressiven und teilweise pastosen Malweise ausgeführt; technisch kommen nach dem Fotobefund vor allem Öl- oder Acrylfarben auf einer festen Malpappe bzw. einem Karton als Bildträger in Betracht. Eine sichere regionale oder ethnografische Zuordnung der Kleidung lässt sich aus dem Motiv allein nicht belastbar ableiten. Auf Vorder- und Rückseite ist keine Signatur, Datierung, Galeriebezeichnung oder sonstige Provenienzangabe erkennbar. Das Werk wird daher vorläufig als anonyme figurative Arbeit der zweiten Hälfte des 20. Jahrhunderts eingeordnet. Maß 60 × 48 cm, ungerahmt. Der Zustand wirkt insgesamt ordentlich, mit Gebrauchsspuren und kleineren Abriebstellen an den Kanten. Ohne gesicherte Künstlerzuordnung erscheint ein realistischer Privatverkaufswert von etwa 80–180 € plausibel; bei einer späteren Identifizierung des Künstlers wäre eine Neubewertung erforderlich.",
+      images: []
     }
   ];
 
