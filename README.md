@@ -1,6 +1,6 @@
 # Kunstsammlung
 
-Statischer, responsiver Online-Katalog der im freigegebenen Chat dokumentierten Kunstsammlung. Die Seite umfasst 75 Werkgruppen und 218 zugeordnete Fotografien.
+Statischer, responsiver Online-Katalog der im freigegebenen Chat dokumentierten Kunstsammlung. Die Seite umfasst aktuell 76 Werkgruppen und 222 zugeordnete Fotografien.
 
 ## Lokal ansehen
 
