@@ -261,6 +261,7 @@
     try {
       await loadScript("catalog.js?v=auth3");
       await loadScript("catalog-extra.js?v=1");
+      await loadScript("catalog-extra-081.js?v=1");
       await loadScript("app.js?v=auth3");
       await loadScript("pdf-export.js?v=2");
       setupPasswordChange();
