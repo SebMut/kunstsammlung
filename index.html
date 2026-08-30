@@ -12,7 +12,19 @@
     <script src="auth.js?v=auth4" defer></script>
   </head>
   <body class="auth-pending">
-    <div style="position:relative;z-index:99999;width:100%;box-sizing:border-box;padding:7px 12px;background:#111;color:#fff;font:600 12px/1.3 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;text-align:center;letter-spacing:.02em;">Katalog-Commit: 7592b004b10cfffcc3397e36e95f5ffe9889e2c5</div>
+    <div id="deploy-marker" style="position:relative;z-index:99999;width:100%;box-sizing:border-box;padding:7px 12px;background:#111;color:#fff;font:600 12px/1.3 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;text-align:center;letter-spacing:.02em;">Seiten-Version: DIAG-2026-08-30-01 · Main-Commit wird geladen …</div>
+    <script>
+      fetch("https://api.github.com/repos/SebMut/kunstsammlung/commits/main", { cache: "no-store" })
+        .then((response) => response.ok ? response.json() : Promise.reject())
+        .then((data) => {
+          const marker = document.getElementById("deploy-marker");
+          if (marker && data?.sha) marker.textContent = `Seiten-Version: DIAG-2026-08-30-01 · Aktueller main-Commit: ${data.sha}`;
+        })
+        .catch(() => {
+          const marker = document.getElementById("deploy-marker");
+          if (marker) marker.textContent = "Seiten-Version: DIAG-2026-08-30-01 · main-Commit konnte nicht geladen werden";
+        });
+    </script>
     <section class="login-screen" id="login-screen" aria-labelledby="login-title">
       <div class="login-intro">
         <a class="login-wordmark" href="./" aria-label="Kunstsammlung"><span class="wordmark-mark" aria-hidden="true">KS</span><span>Kunstsammlung</span></a>
