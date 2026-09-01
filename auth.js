@@ -117,8 +117,8 @@
       await loadScript("catalog-extra-087.js?v=1");
       await loadScript("catalog-extra-088.js?v=1");
       await loadScript("catalog-extra-089.js?v=2");
-      await loadScript("catalog-sanitize.js?v=1");
-      await loadScript("photo-placeholder-fix.js?v=2");
+      await loadScript("catalog-sanitize.js?v=2");
+      await loadScript("photo-placeholder-fix.js?v=3");
       await loadScript("app.js?v=auth4");
       await loadStyle("github-media-sync.css?v=1");
       await loadScript("github-media-sync.js?v=1");
