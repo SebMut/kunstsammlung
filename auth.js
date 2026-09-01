@@ -34,6 +34,15 @@
     document.head.append(script);
   });
 
+  const loadStyle = (href) => new Promise((resolve, reject) => {
+    const link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.href = href;
+    link.onload = resolve;
+    link.onerror = reject;
+    document.head.append(link);
+  });
+
   const setupPasswordChange = () => {
     if (document.querySelector("#change-password-button")) return;
     const logoutButton = document.querySelector("#logout-button");
@@ -111,6 +120,7 @@
       await loadScript("catalog-sanitize.js?v=1");
       await loadScript("photo-placeholder-fix.js?v=1");
       await loadScript("app.js?v=auth4");
+      await loadStyle("artwork-upload.css?v=1");
       await loadScript("artwork-upload.js?v=1");
       setupPasswordChange();
       document.querySelector("#logout-button")?.addEventListener("click", () => {
