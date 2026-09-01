@@ -1,0 +1,72 @@
+.artwork-managed-image {
+  display: grid !important;
+  grid-template-columns: 56px minmax(0, 1fr) auto;
+  align-items: center !important;
+  gap: 12px !important;
+  padding: 10px 0 !important;
+}
+
+.artwork-managed-preview {
+  width: 56px;
+  height: 44px;
+  object-fit: cover;
+  background: var(--paper-deep);
+}
+
+.artwork-managed-copy {
+  min-width: 0;
+  display: grid;
+  gap: 2px;
+}
+
+.artwork-managed-copy strong,
+.artwork-managed-copy small {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.artwork-managed-copy strong {
+  color: var(--ink);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.artwork-managed-copy small {
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.artwork-managed-image > button {
+  border-color: rgba(127, 61, 44, .35);
+  color: var(--accent);
+}
+
+.artwork-managed-image > button:hover,
+.artwork-managed-image > button:focus-visible {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--white);
+}
+
+.artwork-managed-empty {
+  display: block !important;
+  color: var(--muted);
+  border-top: 0 !important;
+}
+
+@media (max-width: 520px) {
+  .artwork-managed-image {
+    grid-template-columns: 48px minmax(0, 1fr);
+  }
+
+  .artwork-managed-preview {
+    width: 48px;
+    height: 40px;
+  }
+
+  .artwork-managed-image > button {
+    grid-column: 1 / -1;
+    width: 100%;
+  }
+}
