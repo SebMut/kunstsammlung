@@ -120,8 +120,10 @@
       await loadScript("catalog-sanitize.js?v=1");
       await loadScript("photo-placeholder-fix.js?v=1");
       await loadScript("app.js?v=auth4");
-      await loadStyle("artwork-upload.css?v=2");
-      await loadScript("artwork-upload.js?v=2");
+      await loadStyle("artwork-upload.css?v=3");
+      await loadScript("artwork-upload.js?v=3");
+      await loadStyle("artwork-image-manager.css?v=1");
+      await loadScript("artwork-image-manager.js?v=1");
       setupPasswordChange();
       document.querySelector("#logout-button")?.addEventListener("click", () => {
         sessionStorage.removeItem(SESSION_KEY);
