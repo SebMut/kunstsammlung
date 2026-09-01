@@ -1,0 +1,109 @@
+.artwork-upload-panel {
+  margin-top: 26px;
+  padding-top: 22px;
+  border-top: 1px solid var(--line);
+}
+
+.artwork-upload-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.artwork-upload-heading h3 {
+  margin: 0 0 6px;
+}
+
+.artwork-upload-heading p {
+  max-width: 520px;
+  margin: 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.artwork-upload-button {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  padding: 0 14px;
+  border: 1px solid var(--ink);
+  background: var(--ink);
+  color: var(--white);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.artwork-upload-button:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.artwork-upload-button input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.artwork-upload-message {
+  min-height: 20px;
+  margin: 12px 0 4px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.artwork-upload-message[data-kind="success"] { color: #3c6b43; }
+.artwork-upload-message[data-kind="error"] { color: var(--accent); }
+
+.artwork-upload-list {
+  margin: 4px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.artwork-upload-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 8px 0;
+  border-top: 1px solid var(--line);
+  font-size: 12px;
+}
+
+.artwork-upload-list li span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.artwork-upload-list button {
+  padding: 5px 8px;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.artwork-upload-list button:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.artwork-upload-list .upload-empty {
+  display: block;
+  color: var(--muted);
+  border-top: 0;
+}
+
+@media (max-width: 720px) {
+  .artwork-upload-heading { flex-direction: column; }
+  .artwork-upload-button { width: 100%; }
+}
