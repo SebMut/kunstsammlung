@@ -19,6 +19,7 @@
         src: placeholderSrc,
         label: "Foto noch nicht hinterlegt",
         placeholder: true,
+        runtimePlaceholder: true,
       };
     });
   }
