@@ -1,4 +1,15 @@
 {
   "version": 1,
-  "works": {}
+  "works": {
+    "G-089": {
+      "uploads": [
+        {
+          "path": "assets/artworks/G-089/20260901205518-01-IMG_5661.jpeg",
+          "name": "IMG_5661.jpeg",
+          "addedAt": "2026-09-01T20:55:19.786Z"
+        }
+      ],
+      "hidden": []
+    }
+  }
 }
