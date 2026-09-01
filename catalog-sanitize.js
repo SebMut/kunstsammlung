@@ -3,8 +3,6 @@
   const catalog = window.CATALOG_DATA;
   if (!catalog?.works) return;
 
-  const placeholder = { src: "assets/favicon.svg", label: "Foto folgt" };
-
   for (const work of catalog.works) {
     let images = work.images;
 
@@ -12,9 +10,9 @@
       images = images ? [images] : [];
     }
 
-    images = images
+    work.images = images
       .map((image) => {
-        if (typeof image === "string") return { src: image };
+        if (typeof image === "string" && image.trim()) return { src: image };
         if (image && typeof image === "object" && typeof image.src === "string" && image.src.trim()) {
           return image;
         }
@@ -22,9 +20,9 @@
       })
       .filter(Boolean);
 
-    if (!images.length) images = [{ ...placeholder }];
-    work.images = images;
-    if (typeof work.artist !== "string") work.artist = work.artist ? String(work.artist) : "Unbekannter Künstler";
+    if (typeof work.artist !== "string") {
+      work.artist = work.artist ? String(work.artist) : "Unbekannter Künstler";
+    }
   }
 
   if (catalog.stats) {
